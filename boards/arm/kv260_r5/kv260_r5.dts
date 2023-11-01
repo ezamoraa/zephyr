@@ -13,12 +13,33 @@
 	compatible = "xlnx,zynqmp-r5";
 
 	chosen {
-		zephyr,sram = &sram0;
+		//zephyr,sram = &ddr0;
+		zephyr,sram = &r5_0_tcm_a;
 		zephyr,flash = &flash0;
 		zephyr,console = &uart1;
 		zephyr,shell-uart = &uart1;
 		zephyr,ocm = &ocm;
 	};
+
+	/delete-node/ sram0@0;
+
+	r5_0_tcm_a: tcm@0{
+		compatible = "zephyr,memory-region", "mmio-sram";
+		reg = <0 DT_SIZE_K(64)>;
+		zephyr,memory-region = "R5_0_TCM_A";
+	};
+
+	r5_0_tcm_b: tcm@0x00020000{
+		compatible = "zephyr,memory-region", "mmio-sram";
+		reg = <0x00020000 DT_SIZE_K(64)>;
+		zephyr,memory-region = "R5_0_TCM_B";
+	};
+
+    ddr0: ddr@0x3ed00000{
+        compatible = "zephyr,memory-region", "mmio-sram";
+        reg = <0x3ed00000 DT_SIZE_K(256)>;
+		zephyr,memory-region = "DDR";
+    };
 };
 
 &uart1 {
